@@ -1,4 +1,6 @@
 <?php
+// Fichier PDO
+// Sous le modèle singleton -- Permet d'avoir une seule instance pour se connecter à la BDD
 declare(strict_types=1);
 namespace Tools;
 

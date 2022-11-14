@@ -1,15 +1,11 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 /**
  * Description of conf
  *
  * @author ayme.pignon
  */
-class conf {
-    //put your code here
-}
+
+// Chargement des constantes d'application et des paramettres
+include_once(RACINE."config".DS."define.php");
+include_once(RACINE."parametres.php");

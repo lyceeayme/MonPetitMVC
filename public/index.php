@@ -1,10 +1,10 @@
 <?php
-
+use App\Controller\TestAutoload;
+require '..\vendor\autoload.php';
 /**
  * Description of index
  *
  * @author ayme.pignon
  */
-class index {
-    //put your code here
-}
+$e = new TestAutoload();
+echo $e->composer();
