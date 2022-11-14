@@ -1,6 +1,9 @@
 <?php
-use App\Controller\TestAutoload;
+
 require '..\vendor\autoload.php';
+
+use App\Controller\TestAutoload;
+use App\Exceptions\AppException;
 /**
  * Description of index
  *
