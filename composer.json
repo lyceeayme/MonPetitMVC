@@ -1,0 +1,21 @@
+{
+    "name": "vendor/mon-petit-m-v-c",
+    "description": "Description of project MonPetitMVC.",
+    "authors": [
+        {
+            "name": "ayme.pignon",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\tests\\": "tests/"
+        }
+    }
+}
