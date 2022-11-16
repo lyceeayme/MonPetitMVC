@@ -30,4 +30,15 @@ class GestionClientModel {
         }
     }
 
+    public function findAll() {
+        try {
+            $connexion = Connexion::getConnexion();
+            $sql = $connexion->prepare("Select * from CLIENT");
+            $sql->execute();
+            return $sql->fetchAll(PDO::FETCH_CLASS, Client::class);
+        } catch (Exception) {
+            throw new AppException("Erreur technique inattendue");
+        }
+    }
+
 }
