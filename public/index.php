@@ -29,6 +29,3 @@ try {
 } catch (Exception $ex) {
     include(PATH_VIEW . '/errors/error.html');
 } 
-
-    
-

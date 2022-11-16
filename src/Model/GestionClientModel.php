@@ -20,7 +20,7 @@ class GestionClientModel {
     public function find(int $id): Client {
         try {
             $unObjetPdo = Connexion::getConnexion();
-            $sql = "Select $ from CLIENT where id=:id";
+            $sql = "Select * from CLIENT where id=:id";
             $ligne = $unObjetPdo->prepare($sql);
             $ligne->bindValue(":id", $id, PDO::PARAM_INT);
             $ligne->execute();
