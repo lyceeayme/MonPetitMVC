@@ -8,7 +8,7 @@ if (MODE_DEV) {
 }
 
 Foreach($clients as $client){
-    echo "<br>" . $client->getId() ." " . $client->getTitreCli();
+    echo "<br>" . $client->getId() ." " . $client->getTitreCli() . " " . $clients->getNomCli() ." " . $clients->getPrenomCli();
 }
 
 
