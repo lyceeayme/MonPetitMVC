@@ -8,9 +8,7 @@ if (MODE_DEV) {
 }
 
 Foreach($clients as $client){
-    echo "<br>" . $client->getId() ." " . $client->getTitreCli() . " " . $clients->getNomCli() ." " . $clients->getPrenomCli();
+    echo "<br>" . $client->getId() . " " . $client->getTitreCli() . " " . $client->getNomCli() . " " . $client->getPrenomCli();
 }
-
-
 
 include_once PATH_VIEW . "footer.html";
