@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
-    <h2> Informations du client numéro {{ unClient.getNoCli() }} </h2>
+    <h2> Informations du client numéro {{ unClient.getId() }} </h2>
     <p>{{ unClient.getPrenomCli() }} {{ unClient.getNomCli() }}</p>
     <p> {{ unClient.getAdresseRue1Cli() }}
         {% if unClient.getAdresseRue2Cli() %}
