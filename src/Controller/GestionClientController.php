@@ -34,7 +34,7 @@ class GestionClientController {
             $r = new ReflectionClass($this);
             include_once PATH_VIEW . str_replace('Controller','View', $r->getShortName()) ."/tousClients.php";
         }else{
-            throw new AppException("Aucun client trouvé");
+            throw new AppException("Aucun client à afficher");
         }
     }
 }

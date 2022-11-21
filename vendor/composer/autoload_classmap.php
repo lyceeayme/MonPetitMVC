@@ -6,7 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Controller\\TestAutoload' => $baseDir . '/src/Controller/TestAutoload.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'Tools\\connexion' => $baseDir . '/tools/connexion.php',
 );
