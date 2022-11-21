@@ -6,7 +6,7 @@ namespace App\Controller;
 use App\Model\GestionClientModel;
 use App\Exceptions\AppException;
 use App\Entity\Client;
-use \Tools\MyTwig;
+use Tools\MyTwig;
 use ReflectionClass;
 
 /**
@@ -19,6 +19,11 @@ class GestionClientController {
     public function chercheUn(array $params){
         //appel de la méthode find(id) de la classe model
         $modele = new GestionClientModel();
+        //Tableau de chaque ligne sous forme de tableau pour recup des valeurs
+        $ids = $modele->findIds();
+        // On place les ids trouvés dans un tableau qu'on envoie à la vue
+        $params['lesId'] = $ids;
+        //On cherche si l'id du client est dans l'URL
         $id = filter_var(intval($params["id"]), FILTER_VALIDATE_INT);
         $unClient = $modele->find($id);
         if($unClient){
