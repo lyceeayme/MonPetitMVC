@@ -16,7 +16,7 @@ abstract class  Repository {
     private $classeNameLong;
     private $classeNamespace;
     private $table;
-    private Connexion $connexion;
+    private $connexion;
     
     private function __construct(string $entity) {
         $tablo = explode("\\", $entity);
