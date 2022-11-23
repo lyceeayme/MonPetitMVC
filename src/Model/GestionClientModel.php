@@ -33,9 +33,11 @@ class GestionClientModel {
     public function findIds(){
         try{
             $unObjetPdo = Connexion::getConnexion();
-            $sql = $unObjetPdo->query("select id from client");
-            if ($sql->rowCount() > 0){
-                return $sql->fetchAll(PDO::FETCH_ASSOC);
+            $sql = "select id from CLIENT";
+            $lignes = $unObjetPdo->query($sql);
+            if ($lignes->rowCount() > 0){
+                $t = $lignes->fetchAll(PDO::FETCH_ASSOC);
+                return $t;
             } else{
                 throw new AppException("Aucun client trouvé");
             }        
