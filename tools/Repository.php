@@ -38,4 +38,18 @@ abstract class  Repository {
         $lignes->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong, null);
         return $lignes->fetchAll();
     }
+    
+    public function findIds() :array{
+        $sql = "select * from " . $this->table;
+        $lignes = $this->connexion->query($sql);
+        return $lignes->fetchAll();
+    }
+    
+    public function find(int $id): ?object {
+        $sql = "select * from " . $this->table . " where id=:id";
+        $lignes = $this->connexion->prepare($sql);
+        $lignes->bindParam(':id', $id, PDO::PARAM_INT);
+        $lignes->execute();
+        return $lignes->fetch($this->table::class );
+    }
 }
