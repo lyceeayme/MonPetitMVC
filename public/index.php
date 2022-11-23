@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\AppException;
+use Tools\MyTwig;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('RACINE', new DirectoryIterator(dirname(__FILE__)) . DS . ".." . DS);
@@ -23,9 +24,9 @@ try {
         throw new Error("Le contrôleur demandé n'existe pas");
     }
 } catch (Error $ex) {
-    include(PATH_VIEW . '/errors/error.html');
+    MyTwig::afficheVue('errors/error.html.twig', ['error' => $ex, 'MODE_DEV' => MODE_DEV]);
 } catch (AppException $ex) {
-    include(PATH_VIEW . '/errors/error.html');
+    MyTwig::afficheVue('errors/error.html.twig', ['error' => $ex, 'MODE_DEV' => MODE_DEV]);
 } catch (Exception $ex) {
-    include(PATH_VIEW . '/errors/error.html');
+    MyTwig::afficheVue('errors/error.html.twig', ['error' => $ex, 'MODE_DEV' => MODE_DEV]);
 } 

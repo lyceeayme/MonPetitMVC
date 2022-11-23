@@ -4,10 +4,12 @@ declare (strict_types=1);
 
 namespace App\Controller;
 
+// A ENLEVER
 use App\Model\GestionClientModel;
 use App\Exceptions\AppException;
 use App\Entity\Client;
 use Tools\MyTwig;
+use Tools\Repository;
 use ReflectionClass;
 
 /**
@@ -41,8 +43,8 @@ class GestionClientController {
     }
 
     public function chercheTous() {
-        $modele = new GestionClientModel();
-        $clients = $modele->findAll();
+        $repository = Repository::getRepository("App\Entity\Client");
+        $clients = $repository->findAll();
         if ($clients) {
             $r = new ReflectionClass($this);
             $vue = str_replace('Controller', 'View', $r->getShortName()) . "/tousClients.html.twig";

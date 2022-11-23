@@ -7,7 +7,7 @@ namespace Tools;
 use PDO;
 use App\Exceptions\AppException;
 
-class connexion {
+class Connexion {
 
     private static ?PDO $connexion = null;
     private static ?Connexion $connexionInstance = null;
