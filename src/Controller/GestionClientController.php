@@ -4,8 +4,6 @@ declare (strict_types=1);
 
 namespace App\Controller;
 
-// A ENLEVER
-use App\Model\GestionClientModel;
 use App\Exceptions\AppException;
 use App\Entity\Client;
 use Tools\MyTwig;
@@ -21,7 +19,7 @@ class GestionClientController {
 
     public function chercheUn(array $params) {
         //appel de la méthode find(id) de la classe model
-        $modele = new GestionClientModel();
+        $modele = Repository::getRepository("App\Entity\Client");
         //Tableau de chaque ligne sous forme de tableau pour recup des valeurs
         $ids = $modele->findIds();
         // On place les ids trouvés dans un tableau qu'on envoie à la vue
@@ -55,20 +53,41 @@ class GestionClientController {
     }
 
     public function creerClient(array $params) {
-        $r = new ReflectionClass($this);
-        $vue = str_replace('Controller', 'View', $r->getShortName()) . "/creerClient.html.twig";
-        MyTwig::afficheVue($vue, array());
-    }
-
-    public function enregistreClient($params) {
-        try {
-            //Création d'un objet client à partir du formulaire
-            $client = new Client($params);
-            $modele = new GestionClientModel();
-            $modele->enregistreClient($client);
-        } catch (Exception) {
-            throw new AppException("Erreur à l'enregistrement d'un nouveau client");
+        if (empty($params)){
+            $vue = "GestionClientView\\creerClient.html.twig";
+            MyTwig::afficheVue($vue, array());
+        } else {
+            try {
+                $params = $this->VerificationSaisieClient($params);
+                // Création de l'objet client
+                $client = new Client($params);
+                $repository = Repository::getRepository("App\Entity\Client");
+                $repository->insert($client);
+                $this->chercheTous();
+            } catch (Exception $ex) {
+                throw new AppException("Erreur à l'enregistrement d'un nouveau client");
+            }
         }
+    }
+    // a implementer
+    private function VerificationSaisieClient(array $params){
+        
+    }
+    
+    /**
+     * Methode retournant le nombre de client présent dans la table Client
+     * @param array $params
+     * @return void
+     */
+    public function nbClients (array $params) : void{
+        $repo = Repository::getRepository("App\Entity\Client");
+        $nbClients =$repo->countRows();
+        echo "Nombre de clients : " . $nbClients;
+    }
+    
+    // a implementer
+    public function statistiquesTousClients(): array{
+        
     }
 
 }
