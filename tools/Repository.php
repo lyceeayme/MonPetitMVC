@@ -51,7 +51,8 @@ abstract class Repository {
         $lignes = $this->connexion->prepare($sql);
         $lignes->bindParam(':id', $id, PDO::PARAM_INT);
         $lignes->execute();
-        return $lignes->fetch($this->table::class);
+        $lignes->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong, null);
+        return $lignes->fetch();
     }
 
     public function insert(object $objet): void {
@@ -79,13 +80,62 @@ abstract class Repository {
     }
     
     public function countRows() :int {
-        $sql = "select * from " . $this->table;
+        $sql = "select Count(*) from " . $this->table;
         $pdo = $this->connexion->query($sql);
-        return $pdo;
+        $nb = $pdo->fetch(PDO::FETCH_NUM)[0];
+        return intval($nb);
     }
     
     public function execulteSQL (string $sql): ?array {
         $resultat = $this->connexion->query($sql);
         return $resultat->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function __call(string $methode, array $arguments) {
+        if (preg_match("#^findBy#", $methode)){
+            return $this->traiteFindBy($methode, array_values($arguments[0]));
+        }
+    }
+    
+    public function findBy(array $params){
+        $element = "Choisir...";
+        while (in_array($element, $params)){
+            unset($params[array_search($element,$params)]);
+        }
+        $cles = array_keys($params);
+        $methode ="findBy";
+        for ($i =0; $i < count($cles); $i++){
+            if ($i>0){
+                $methode .= "_and_";
+            }
+            $methode .= $cles[$i];
+        }
+        return $this->traiteFindBy($methode, array_values($params));
+    }
+    
+    private function traiteFindBy($methode, $params){
+        $criteres = str_replace("findBy", "", $methode);
+        $criteres = explode("_and_", $criteres);
+        if(count($criteres) > 0){
+            $sql = 'select * from ' . $this->table . " where ";
+            $pasPremier =false;
+            foreach($criteres as $critere){
+                if ($pasPremier){
+                    $sql .= ' and ';
+                }
+                $sql .= $critere . " = ? ";
+                $pasPremier = true;
+            }
+            $lignes = $this->connexion->prepare($sql);
+            $lignes->execute($params);
+            $lignes->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong, null);
+            return $lignes->fetchAll();
+        }
+    }
+    
+    public function findColumnDistinctValues(string $colonne) : array{
+        $sql = "select distinct " . $colonne . " libelle from " . $this->table . " order by 1";
+        $tab = $this->connexion->query($sql)->fetchAll(PDO::FETCH_COLUMN);
+        return $tab;
     }
 }

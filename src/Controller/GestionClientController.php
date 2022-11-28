@@ -53,7 +53,7 @@ class GestionClientController {
     }
 
     public function creerClient(array $params) {
-        if (empty($params)){
+        if (empty($params)) {
             $vue = "GestionClientView\\creerClient.html.twig";
             MyTwig::afficheVue($vue, array());
         } else {
@@ -69,25 +69,92 @@ class GestionClientController {
             }
         }
     }
-    // a implementer
-    private function VerificationSaisieClient(array $params){
+
+    // a implementer page 12
+    private function VerificationSaisieClient(array $params) {
         
     }
-    
+
     /**
      * Methode retournant le nombre de client présent dans la table Client
      * @param array $params
      * @return void
      */
-    public function nbClients (array $params) : void{
+    public function nbClients(array $params): void {
         $repo = Repository::getRepository("App\Entity\Client");
-        $nbClients =$repo->countRows();
+        $nbClients = $repo->countRows();
         echo "Nombre de clients : " . $nbClients;
     }
-    
-    // a implementer
-    public function statistiquesTousClients(): array{
+
+    // a implementer Exercice 2 page 13
+    public function statistiquesTousClients(): array {
         
+    }
+
+    public function testFindBy(array $params): void {
+        $repository = Repository::getRepository("App\Entity\Client");
+        $parameters = array("titreCli" => "Monsieur", "villeClie" => "Toulon");
+        $clients = $repository->findBytitreCli_and_villeCli($parameters);
+        $r = new ReflectionClass($this);
+        $vue = str_replace('Controller', 'View', $r->getShortName()) . "/tousClients.html.twig";
+        MyTwig::afficheVue($vue, array('clients' => $clients));
+    }
+
+    /**
+     * Affiche les clients filtrer selon 3 criteres max
+     * @param array $params
+     * @return void
+     */
+    public function rechercheClients(array $params): void {
+        $repository = Repository::getRepository("App\Entity\Client");
+        $titres = $repository->findColumnDistinctValues("titreCli");
+        $cps = $repository->findColumnDistinctValues("cpCli");
+        $villes = $repository->findColumnDistinctValues("villeCli");
+
+        $paramsVue['titres'] = $titres;
+        $paramsVue['cps'] = $cps;
+        $paramsVue['villes'] = $villes;
+        // gestion du retour du formulaire
+        $criteresPrepares = $this->verifieEtPrepareCriteres($params);
+
+        if (count($criteresPrepares) > 0) {
+            $clients = $repository->findBy($params);
+            $paramsVue['clients'] = $clients;
+            foreach ($criteresPrepares as $valeur) {
+                ($valeur != "Choisir...") ? ($criteres[] = $valeur) : (null);
+            }
+            $paramsVue['criteres'] = $criteres;
+        }
+        $vue = "GestionClientView\\filtreClients.html.twig";
+        MyTwig::afficheVue($vue, $paramsVue);
+    }
+
+    /**
+     * Methode privé appelé dans la méthode rechercheClients, qui vérifie les valeurs dans le tableau
+     * @param array $params
+     * @return array
+     */
+    private function verifieEtPrepareCriteres(array $params): array {
+        $args = array(
+            'titreCli' => array(
+                'filter' => FILTER_VALIDATE_REGEXP | FILTER_SANITIZE_SPECIAL_CHARS,
+                'flags' => FILTER_NULL_ON_FAILURE,
+                'options' => array('regexp' => '/^(Monsieur|Madame|Mademoiselle)$/')
+            ),
+            'cpCli' => array(
+                'filter' => FILTER_VALIDATE_REGEXP | FILTER_SANITIZE_SPECIAL_CHARS,
+                'flags' => FILTER_NULL_ON_FAILURE,
+                'options' => array('regexp' => "/[0-9]{5}/")
+            ),
+            'villeCli' => FILTER_SANITIZE_SPECIAL_CHARS);
+        $retour = filter_var_array($params, $args, false);
+        if (isset($retour['titreCli']) || isset($retour['cpCli']) || isset($retour['villeCli'])) {
+            $element = "Choisir...";
+            while (in_array($element, $retour)) {
+                unset($retour[array_search($element, $retour)]);
+            }
+        }
+        return $retour;
     }
 
 }
