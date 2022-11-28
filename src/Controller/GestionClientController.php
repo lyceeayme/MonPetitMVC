@@ -162,4 +162,13 @@ class GestionClientController {
     //          PARTIE AJAX         //
     //          PARTIE AJAX         //
     ///                            ///
+    
+    public function chercheUnAjax($params): void{
+        $repo = Repository::getRepository('App\Entity\Client');
+        $ids = $repo->findIds();
+        $params['lesId'] = $ids;
+        $r = new ReflectionClass($this);
+        $vue = str_replace('Controller', 'View', $r->getShortName()) . "/unClientAjax.html.twig";
+        MyTwig::afficheVue($vue, $params);
+    }
 }

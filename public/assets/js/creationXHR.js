@@ -1,5 +1,5 @@
 function creationXHR(){
-    var resuoltat=null;
+    var resultat=null;
     try{ //test pour les navigateurs : Mozilla, Opéra, ...
         resultat = new XMLHttpRequest();
     }

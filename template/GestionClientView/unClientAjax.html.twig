@@ -1,20 +1,20 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
-    
+
     {% if unClient %}
         {% set idClient = unClient.getId() %}
     {% endif %}
-    
+
     {% block recherche %}
         {% include '/blocks/clientRecherche.html.twig' %}
     {% endblock %}
-    
+
     {% if unClient %}
-        
+
         {% block retour %}
-        {% include '/blocks/singleClient.html.twig' %}
-    {% endblock %}
-    
+            {% include '/blocks/singleClient.html.twig' %}
+        {% endblock %}
+
     {% endif %}
 {% endblock %}
 
