@@ -157,4 +157,9 @@ class GestionClientController {
         return $retour;
     }
 
+    ///                            ///
+    //          PARTIE AJAX         //
+    //          PARTIE AJAX         //
+    //          PARTIE AJAX         //
+    ///                            ///
 }

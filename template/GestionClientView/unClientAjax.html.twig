@@ -1,1 +1,25 @@
-{# empty Twig template #}
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    
+    {% if unClient %}
+        {% set idClient = unClient.getId() %}
+    {% endif %}
+    
+    {% block recherche %}
+        {% include '/blocks/clientRecherche.html.twig' %}
+    {% endblock %}
+    
+    {% if unClient %}
+        
+        {% block retour %}
+        {% include '/blocks/singleClient.html.twig' %}
+    {% endblock %}
+    
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    {{  parent() }}
+    <script type='text/javascript' src='assets/js/GestionClient/clientsFunctions.js'></script>
+    <script type='text/javascript' src='assets/js/creationXHR.js'></script>
+{% endblock %}

@@ -3,8 +3,12 @@
     <div class='form-group'>
         <label for='pk'>Id du client</label>
         <select class='form-control' id='pk' name='id'>
-            {% for id in lesId %}
-                <option> {{ id['id'] }}</option>
+            {%  for id in lesId %}
+                {% if idClient and idClient==id['id'] %}
+                    <option select>{{ id['id'] }}</option>
+                {% else %}
+                    <option> {{ id['id'] }}</option>
+                {% endif %}
             {% endfor %}
         </select>
     </div>

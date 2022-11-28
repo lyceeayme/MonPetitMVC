@@ -4,7 +4,7 @@
         {% set idClient = unClient.getId() %}
     {% endif %}
     {% block recherche %}
-        {% include 'recherche.html.twig' %}
+        {% include '/blocks/recherche.html.twig' %}
     {% endblock %}
     {% if unClient %}
         {# On teste si on a selectionner un client pour l'afficher #}
@@ -22,5 +22,4 @@
 
 {% block footer %}
     {{  parent() }}
-    <div class="text-center">Fin de l'affichage</div>
 {% endblock %}
